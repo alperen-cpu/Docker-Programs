@@ -1,34 +1,70 @@
-version: "3.9"
+version: '3.7'
 services:
+
   elasticsearch:
-    image: elasticsearch:8.2.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
     environment:
+      - cluster.name=docker-cluster
+      - network.host=0.0.0.0
       - discovery.type=single-node
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g
-      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"  
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     volumes:
-      - es_data:/usr/share/elasticsearch/data
+      - esdata1:/usr/share/elasticsearch/data
     ports:
-      - target: 9200
-        published: 9200
+      - "9200:9200"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - elastic  
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.6.2 
+    depends_on:
+      - elasticsearch
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    volumes:
+      - logstash_config:/etc/logstash/conf.d/
+    command: logstash -f /usr/share/logstash/pipeline/logstash.conf   
     networks:
       - elastic
 
   kibana:
-    image: kibana:8.2.2
+    image: docker.elastic.co/kibana/kibana:8.6.2
+    environment:
+      - ELASTICSEARCH_URL=https://elasticsearch:9200
+      - server.name=kibana
+      - server.host=0.0.0.0      
     ports:
-      - target: 5601
-        published: 5601
+      - "5601:5601"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - elastic
     depends_on:
       - elasticsearch
-    networks:
-      - elastic      
 
 volumes:
-  es_data:
+  esdata1:
+    driver: local
+  logstash_config:
     driver: local
 
 networks:
   elastic:
-    name: elastic
-    driver: bridge
+    driver: bridge 
