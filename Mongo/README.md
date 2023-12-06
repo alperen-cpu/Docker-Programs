@@ -1,17 +1,9 @@
-Elbette, Docker Compose kullanarak MongoDB sunucusu oluşturan projenizin `README.md` dosyasına aşağıdaki açıklamayı ekleyebilirsiniz:
-
 ```markdown
 # MongoDB Docker Compose Projesi
 
-Bu proje, Docker Compose kullanarak MongoDB veritabanı sunucusunu başlatan bir örnektir. MongoDB, `username` ve `password` ile korunmaktadır.
-
-## Başlarken
-
-Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları takip edin.
+Docker Compose kullanarak MongoDB veritabanı sunucusunu başlatan bir örnektir. MongoDB, `username` ve `password` ile korunmaktadır.
 
 ### Gereksinimler
-
-Bu projeyi çalıştırmak için aşağıdaki yazılım ve araçlara ihtiyacınız vardır:
 
 - Docker: [Docker'in Resmi İndirme Sayfası](https://docs.docker.com/get-docker/)
 
@@ -21,15 +13,14 @@ Bu projeyi çalıştırmak için aşağıdaki yazılım ve araçlara ihtiyacın�
 
 2. Proje dizinine gidin ve Docker Compose komutunu kullanarak MongoDB konteynerini başlatın:
 
-```bash
 docker compose up
 ```
 
-Bu komut, MongoDB sunucusunu başlatacak ve ayarladığınız kullanıcı adı ve parola ile koruyacaktır.
+MongoDB sunucusunu başlatacak ve ayarladığınız kullanıcı adı ve parola ile koruyacaktır.
 
-3. MongoDB sunucusu başladığında, MongoDB veritabanınızı kullanmaya başlayabilirsiniz. İşte MongoDB'ye nasıl bağlanabilirsiniz:
+3. MongoDB sunucusu başladığında, MongoDB veritabanınızı kullanmaya başlayabilirsiniz.
 
-   - MongoDB istemcisini yerel makinenizde kullanıyorsanız, aşağıdaki komutu kullanarak MongoDB'ye bağlanın:
+   - MongoDB istemcisini local makinenizde kullanıyorsanız, aşağıdaki komutu kullanarak MongoDB'ye bağlanın:
 
 ```bash
 mongo --username username --password password --authenticationDatabase admin
@@ -43,7 +34,7 @@ mongo --username username --password password --authenticationDatabase admin
 docker compose down
 ```
 
-### Python Betiğini Çalıştırma
+### Python Çalıştırma
 
 1. Docker'ı yüklediğinizden ve Docker Compose ile MongoDB'yi başlattığınızdan emin olun.
 
